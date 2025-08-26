@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colina Records - 100% Gerenciado por IA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #ff3a7c;
+            --color-secondary: #00d9ff;
+            --color-accent: #ffde59;
+            --color-dark: #121212;
+            --color-darker: #0a0a0a;
+            --color-light: #f5f5f5;
+            --color-gray: #333333;
+            --color-gray-light: #444444;
+            --gradient-primary: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            --gradient-dark: linear-gradient(135deg, var(--color-darker), var(--color-gray));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--color-darker);
+            color: var(--color-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: var(--gradient-dark);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-primary);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--color-light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--color-primary);
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--color-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--color-primary);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: var(--gradient-dark), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23121212"/><path d="M0 0L100 100" stroke="%23333" stroke-width="2"/><path d="M100 0L0 100" stroke="%23333" stroke-width="2"/></svg>');
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: pulse 2s infinite;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gradient-primary);
+            color: var(--color-light);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+        }
+        
+        .section-title span {
+            color: var(--color-primary);
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 40px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            background: var(--gradient-primary);
+            height: 400px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .about-image i {
+            font-size: 8rem;
+            color: rgba(255,255,255,0.2);
+        }
+        
+        /* Artists Section */
+        .artists {
+            background-color: var(--color-dark);
+        }
+        
+        .artist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .artist-card {
+            background: var(--gradient-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .artist-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .artist-image {
+            height: 250px;
+            background: var(--gradient-primary);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .artist-info {
+            padding: 20px;
+        }
+        
+        .artist-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+        
+        .artist-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+        }
+        
+        /* IA Management Section */
+        .ia-management {
+            background: var(--gradient-dark);
+            position: relative;
+        }
+        
+        .ia-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .ia-feature {
+            background-color: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .ia-feature:hover {
+            transform: translateY(-5px);
+        }
+        
+        .ia-feature i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--color-secondary);
+        }
+        
+        .ia-feature h3 {
+            color: var(--color-secondary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--color-darker);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--color-gray);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--gradient-primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--color-gray);
+            margin-top: 30px;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-microphone-alt logo-icon"></i>
+                COLINA<span>RECORDS</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#artists">Artistas</a></li>
+                    <li><a href="#ia">IA Management</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1 class="floating">O FUTURO DO FUNK É AGORA</h1>
+            <p>A primeira gravadora do Brasil 100% gerenciada por Inteligência Artificial. Som da quebrada com tecnologia de ponta.</p>
+            <a href="#artists" class="btn">EXPLORAR ARTISTAS</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">SOBRE A <span>COLINA RECORDS</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Nascida com alma e identidade de favela, a Colina Records é um ecossistema musical disruptivo e o primeiro selo fonográfico do Brasil 100% gerenciado por Inteligência Artificial.</p>
+                    <p>Nossa missão é automatizar toda a cadeia produtiva da música — da criação à distribuição — para valorizar artistas das periferias, dar voz a novos talentos e levar o funk autêntico para o mundo.</p>
+                    <p>Enquanto outras gravadoras usam IA como ferramenta, a Colina Records é operada por IA. Os humanos (nossos artistas e produtores) focam no que sabem fazer de melhor: criar. A máquina faz o resto.</p>
+                </div>
+                <div class="about-image">
+                    <i class="fas fa-robot"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section id="artists" class="section artists">
+        <div class="container">
+            <h2 class="section-title">NOSSOS <span>ARTISTAS</span></h2>
+            <div class="artist-grid">
+                <div class="artist-card">
+                    <div class="artist-image"><i class="fas fa-microphone-alt"></i></div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">MC Digital</h3>
+                        <p>Futurista das quebradas</p>
+                        <div class="artist-stats">
+                            <span><i class="fas fa-headphones"></i> 245K</span>
+                            <span><i class="fas fa-music"></i> 18</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <div class="artist-image"><i class="fas fa-sliders-h"></i></div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">DJ Algorithm</h3>
+                        <p>Batidas inteligentes</p>
+                        <div class="artist-stats">
+                            <span><i class="fas fa-headphones"></i> 189K</span>
+                            <span><i class="fas fa-music"></i> 24</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <div class="artist-image"><i class="fas fa-laptop-code"></i></div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">PerifaTech</h3>
+                        <p>Flow de favela digital</p>
+                        <div class="artist-stats">
+                            <span><i class="fas fa-headphones"></i> 312K</span>
+                            <span><i class="fas fa-music"></i> 15</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="artist-card">
+                    <div class="artist-image"><i class="fas fa-robot"></i></div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">IA da Quebrada</h3>
+                        <p>Voz das comunidades</p>
+                        <div class="artist-stats">
+                            <span><i class="fas fa-headphones"></i> 427K</span>
+                            <span><i class="fas fa-music"></i> 32</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IA Management Section -->
+    <section id="ia" class="section ia-management">
+        <div class="container">
+            <h2 class="section-title">GESTÃO POR <span>INTELIGÊNCIA ARTIFICIAL</span></h2>
+            <div class="ia-features">
+                <div class="ia-feature">
+                    <i class="fas fa-music"></i>
+                    <h3>Produção Musical com IA</h3>
+                    <p>Nossa IA compõe e produz bases musicais personalizadas para cada artista, analisando seu estilo único.</p>
+                </div>
+                <div class="ia-feature">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>Artes Visuais Automatizadas</h3>
+                    <p>Geração automática de capas, banners e conteúdo visual com identidade de favela e tecnologia.</p>
+                </div>
+                <div class="ia-feature">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Marketing Inteligente</h3>
+                    <p>Campanhas hyper-segmentadas com geração de copy e gestão de tráfego automatizadas.</p>
+                </div>
+                <div class="ia-feature">
+                    <i class="fas fa-globe"></i>
+                    <h3>Distribuição Global</h3>
+                    <p>Publicação automática em todas as plataformas digitais com análise de performance em tempo real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>COLINA RECORDS</h3>
+                    <p>CNPJ: 49.372.911/0001-39</p>
+                    <p>O primeiro selo fonográfico do Brasil 100% gerenciado por IA.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>CONTATO</h3>
+                    <p>Email: colinarecords.oficial@gmail.com</p>
+                    <p>Redes Sociais:</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-spotify"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>OUÇA NOSSAS MÚSICAS</h3>
+                    <p>Disponível em todas as plataformas digitais:</p>
+                    <p>Spotify | YouTube Music | Deezer | Apple Music</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Colina Records - Todos os direitos reservados. Desenvolvido e gerenciado por IA.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sistema de navegação suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animação de elementos quando entram na viewport
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.ia-feature, .artist-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Simulação de atualizações em tempo real (como se fosse por IA)
+        function updateStreamingNumbers() {
+            document.querySelectorAll('.artist-stats span:first-child').forEach(stat => {
+                const current = parseInt(stat.textContent);
+                const increase = Math.floor(Math.random() * 50);
+                stat.textContent = (current + increase) + 'K';
+            });
+        }
+
+        // Atualizar a cada 30 segundos
+        setInterval(updateStreamingNumbers, 30000);
+    </script>
+</body>
+</html>
